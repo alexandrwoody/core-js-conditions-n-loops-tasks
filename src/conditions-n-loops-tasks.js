@@ -69,7 +69,36 @@ function getMaxNumber(a, b, c) {
  * {x: 1, y: 1}, {x: 2, y: 8} => false
  */
 function canQueenCaptureKing(queen, king) {
- 
+  const num1 = String.fromCharCode(96 + queen.x);
+  const num2 = String.fromCharCode(96 + king.x);
+  const queenPos = num1 + queen.y;
+  const kingPos = num2 + king.y;
+  function calculateQueenMoves(position) {
+    const boardSize = 8;
+    const files = 'abcdefgh';
+    const [file, rank] = position.split('');
+    const fileIndex = files.indexOf(file);
+    const rankIndex = parseInt(rank, 10) - 1;
+    const moves = [];
+    moves.push(position);
+    for (let i = 0; i < boardSize; i += 1) {
+      if (i !== fileIndex) moves.push(files[i] + (rankIndex + 1));
+      if (i !== rankIndex) moves.push(files[fileIndex] + (i + 1));
+    }
+    for (let i = 0; i < boardSize; i += 1) {
+      for (let j = 0; j < boardSize; j += 1) {
+        if (Math.abs(i - fileIndex) === Math.abs(j - rankIndex)) {
+          moves.push(files[i] + (j + 1));
+        }
+      }
+    }
+    return moves.sort((a, b) => {
+      if (a[1] === b[1]) return a[0].localeCompare(b[0]);
+      return a[1] - b[1];
+    });
+  }
+
+  return calculateQueenMoves(queenPos).includes(kingPos);
 }
 
 /**
