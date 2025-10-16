@@ -139,24 +139,26 @@ function isIsoscelesTriangle(a, b, c) {
  */
 function convertToRomanNumerals(num) {
   let res = '';
-  let x = Math.floor(num / 10);
-  let v = Math.floor(num % 10 / 5);
-  let i = Math.floor(Math.floor(num % 10) % 5);
+  const x = Math.floor(num / 10);
+  const v = Math.floor((num % 10) / 5);
+  const i = Math.floor(Math.floor(num % 10) % 5);
   for (let q = 0; q < x; q += 1) {
     res += 'X';
   }
-  if (v !== 0) {
+  if (v !== 0 && i < 4) {
     res += 'V';
     for (let q = 0; q < i; q += 1) {
-      res += 'I'
+      res += 'I';
     }
-  }
-  else {
-    if (i === 4) res += 'IV'
-    else {
-      for (let q = 0; q < i; q += 1) {
-        res += 'I'
-      }
+  } else if (v !== 0 && i === 4) {
+    res += 'IX';
+  } else if (v === 0 && i === 4) {
+    if (i === 4) {
+      res += 'IV';
+    }
+  } else {
+    for (let q = 0; q < i; q += 1) {
+      res += 'I';
     }
   }
   return res;
@@ -193,8 +195,18 @@ function convertNumberToString(/* numberStr */) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  let res;
+  const q = Math.floor(str.length / 2);
+  let j = str.length;
+  for (let i = 0; i < q; i += 1) {
+    j -= 1;
+    if (str[i] !== str[j]) {
+      res = false;
+      break;
+    } else res = true;
+  }
+  return res;
 }
 
 /**
